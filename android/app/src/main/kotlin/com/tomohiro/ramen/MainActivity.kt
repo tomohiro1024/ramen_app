@@ -1,4 +1,4 @@
-package com.example.ramen_app
+package com.tomohiro.ramen
 
 import io.flutter.embedding.android.FlutterActivity
 
