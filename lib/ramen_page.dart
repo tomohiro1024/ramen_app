@@ -35,9 +35,9 @@ class _MyWidgetState extends State<RamenPage> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
-                        blurRadius: 6, // ぼかしの強さ
-                        spreadRadius: 1, // 影の広がり具合
-                        offset: Offset(1, 1), // 影の位置（X, Y）
+                        blurRadius: 6,
+                        spreadRadius: 1,
+                        offset: Offset(1, 1),
                       ),
                     ],
                   ),
