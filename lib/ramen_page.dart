@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ramen_app/sort.dart';
 
 class RamenPage extends StatefulWidget {
   const RamenPage({super.key});
@@ -26,36 +27,7 @@ class _MyWidgetState extends State<RamenPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.only(left: width * 0.02),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 6,
-                        spreadRadius: 1,
-                        offset: Offset(1, 1),
-                      ),
-                    ],
-                  ),
-                  height: 35,
-                  width: width * 0.35,
-                  child: Row(
-                    children: [
-                      SizedBox(width: width * 0.02),
-                      Icon(Icons.sort),
-                      SizedBox(width: width * 0.05),
-                      Text(
-                        '近い順',
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              Sort(width: width),
               SizedBox(height: 15),
               Align(
                 alignment: Alignment.center,
