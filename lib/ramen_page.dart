@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
+import 'package:ramen_app/ramen_data.dart';
 import 'package:ramen_app/secret.dart';
 import 'package:ramen_app/sort.dart';
 
@@ -14,6 +15,7 @@ class RamenPage extends StatefulWidget {
 class _MyWidgetState extends State<RamenPage> {
   late GooglePlace googlePlace;
   final apiKey = Secret.apiKey;
+  List<RamenData> ramenList = [];
   bool _isPressed = false;
 
   @override
@@ -44,11 +46,20 @@ class _MyWidgetState extends State<RamenPage> {
       return;
     }
 
-    final results = response?.results;
+    final results = response.results;
 
-    for (var place in results!) {
-      print("店名: ${place.name}, 住所: ${place.geometry?.location?.lat}");
-    }
+    List<RamenData> fetchedRamenList = results?.map((place) {
+          return RamenData(place.name);
+        }).toList() ??
+        [];
+
+    setState(() {
+      ramenList = fetchedRamenList;
+    });
+
+    // for (var place in results!) {
+    //   print("店名: ${place.name}, 住所: ${place.geometry?.location?.lat}");
+    // }
   }
 
   @override
@@ -65,111 +76,107 @@ class _MyWidgetState extends State<RamenPage> {
         color: Color(0xFFF5E1A4),
         height: height,
         width: width,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10),
-              Sort(width: width),
-              SizedBox(height: 15),
-              Align(
-                alignment: Alignment.center,
-                child: Stack(
-                  children: [
-                    GestureDetector(
-                      onTapDown: (_) => setState(() => _isPressed = true),
-                      onTapUp: (_) => setState(() => _isPressed = false),
-                      onTapCancel: () => setState(() => _isPressed = false),
-                      onTap: () {
-                        // ここにタップ時の処理を追加
-                      },
-                      child: AnimatedScale(
-                        duration: Duration(milliseconds: 100),
-                        scale: _isPressed ? 0.95 : 1.0,
-                        child: Container(
-                          height: 140,
-                          width: width * 0.95,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 6,
-                                spreadRadius: 1,
-                                offset: Offset(1, 0.1),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: width * 0.03),
-                              Image.asset(
-                                'assets/images/sample.png',
-                                width: width * 0.29,
-                                height: 110,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(width: width * 0.03),
-                              SizedBox(
-                                width: width * 0.47,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 25),
-                                    Text(
-                                      "埼玉ラーメン埼玉ラーメン埼玉ラーメン埼玉ラーメン",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10),
+            Sort(width: width),
+            SizedBox(height: 15),
+            Expanded(
+              child: ramenList.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: ramenList.length,
+                      itemBuilder: (context, index) {
+                        final ramen = ramenList[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 5, horizontal: width * 0.02),
+                          child: GestureDetector(
+                            onTapDown: (_) => setState(() => _isPressed = true),
+                            onTapUp: (_) => setState(() => _isPressed = false),
+                            onTapCancel: () =>
+                                setState(() => _isPressed = false),
+                            onTap: () {
+                              // ここにタップ時の処理を追加
+                            },
+                            child: AnimatedScale(
+                              duration: Duration(milliseconds: 100),
+                              scale: _isPressed ? 0.95 : 1.0,
+                              child: Container(
+                                height: 140,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 6,
+                                      spreadRadius: 1,
+                                      offset: Offset(1, 0.1),
                                     ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      children: [
-                                        Transform.translate(
-                                            offset: Offset(0, 10),
-                                            child: Text("レビュー評価：")),
-                                        Text(
-                                          "4.0",
-                                          style: TextStyle(
-                                            fontSize: 45,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: width * 0.03),
+                                    Image.asset(
+                                      'assets/images/sample.png',
+                                      width: width * 0.29,
+                                      height: 110,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    SizedBox(width: width * 0.03),
+                                    SizedBox(
+                                      width: width * 0.47,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 25),
+                                          Text(
+                                            ramen.name ?? '店名不明',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(height: 10),
+                                          Row(
+                                            children: [
+                                              Transform.translate(
+                                                  offset: Offset(0, 10),
+                                                  child: Text("レビュー評価：")),
+                                              Text(
+                                                "4.0",
+                                                style: TextStyle(
+                                                  fontSize: 45,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      size: 50,
                                     ),
                                   ],
                                 ),
                               ),
-                              Icon(
-                                Icons.chevron_right,
-                                size: 50,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     )
-
-                    // Positioned(
-                    //   top: 0,
-                    //   right: 10,
-                    //   child: Icon(
-                    //     Icons.star,
-                    //     size: 30,
-                    //     color: Colors.black,
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+                  : Center(child: CircularProgressIndicator()), // データがない場合
+            ),
+          ],
         ),
       ),
     );
