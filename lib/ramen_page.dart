@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ramen_app/sort.dart';
 
 class RamenPage extends StatefulWidget {
@@ -10,6 +11,21 @@ class RamenPage extends StatefulWidget {
 
 class _MyWidgetState extends State<RamenPage> {
   bool _isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    searchPosition();
+  }
+
+  Future searchPosition() async {
+    // 現在地の取得
+    final currentPosition = await _determinePosition();
+    final currentLatitude = currentPosition.latitude;
+    final currentLongitude = currentPosition.longitude;
+    print('現在地の緯度: $currentLatitude, 経度: $currentLongitude');
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -133,4 +149,28 @@ class _MyWidgetState extends State<RamenPage> {
       ),
     );
   }
+}
+
+Future<Position> _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    return Future.error('位置情報を許可してください！');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error('位置情報を許可してください！');
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    return Future.error('位置情報を許可してください！');
+  }
+
+  return await Geolocator.getCurrentPosition();
 }
