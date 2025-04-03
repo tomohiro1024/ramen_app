@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_place/google_place.dart';
 import 'package:ramen_app/sort.dart';
 
 class RamenPage extends StatefulWidget {
@@ -10,6 +11,7 @@ class RamenPage extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<RamenPage> {
+  late GooglePlace googlePlace;
   bool _isPressed = false;
 
   @override
