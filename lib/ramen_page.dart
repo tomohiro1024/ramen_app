@@ -92,82 +92,74 @@ class _MyWidgetState extends State<RamenPage> {
                           padding: EdgeInsets.symmetric(
                               vertical: 5, horizontal: width * 0.02),
                           child: GestureDetector(
-                            onTapDown: (_) => setState(() => _isPressed = true),
-                            onTapUp: (_) => setState(() => _isPressed = false),
-                            onTapCancel: () =>
-                                setState(() => _isPressed = false),
                             onTap: () {
                               // ここにタップ時の処理を追加
                             },
-                            child: AnimatedScale(
-                              duration: Duration(milliseconds: 100),
-                              scale: _isPressed ? 0.95 : 1.0,
-                              child: Container(
-                                height: 140,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 6,
-                                      spreadRadius: 1,
-                                      offset: Offset(1, 0.1),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: width * 0.03),
-                                    Image.asset(
-                                      'assets/images/sample.png',
-                                      width: width * 0.29,
-                                      height: 110,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    SizedBox(width: width * 0.03),
-                                    SizedBox(
-                                      width: width * 0.47,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(height: 25),
-                                          Text(
-                                            ramen.name ?? '店名不明',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 6,
+                                    spreadRadius: 1,
+                                    offset: Offset(1, 0.1),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  SizedBox(width: width * 0.03),
+                                  Image.asset(
+                                    'assets/images/sample.png',
+                                    width: width * 0.29,
+                                    height: 110,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(width: width * 0.03),
+                                  SizedBox(
+                                    width: width * 0.47,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 25),
+                                        Text(
+                                          ramen.name ?? '店名不明',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          SizedBox(height: 10),
-                                          Row(
-                                            children: [
-                                              Transform.translate(
-                                                  offset: Offset(0, 10),
-                                                  child: Text("レビュー評価：")),
-                                              Text(
-                                                "4.0",
-                                                style: TextStyle(
-                                                  fontSize: 45,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            Transform.translate(
+                                                offset: Offset(0, 10),
+                                                child: Text("レビュー評価：")),
+                                            Text(
+                                              "4.0",
+                                              style: TextStyle(
+                                                fontSize: 45,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    Icon(
-                                      Icons.chevron_right,
-                                      size: 50,
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  Icon(
+                                    Icons.chevron_right,
+                                    size: 50,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
