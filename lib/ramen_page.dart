@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
+import 'package:ramen_app/secret.dart';
 import 'package:ramen_app/sort.dart';
 
 class RamenPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class RamenPage extends StatefulWidget {
 
 class _MyWidgetState extends State<RamenPage> {
   late GooglePlace googlePlace;
+  final apiKey = Secret.apiKey;
   bool _isPressed = false;
 
   @override
@@ -25,7 +27,28 @@ class _MyWidgetState extends State<RamenPage> {
     final currentPosition = await _determinePosition();
     final currentLatitude = currentPosition.latitude;
     final currentLongitude = currentPosition.longitude;
-    print('現在地の緯度: $currentLatitude, 経度: $currentLongitude');
+
+    googlePlace = GooglePlace(apiKey);
+
+    var response = await googlePlace.search.getNearBySearch(
+      Location(lat: currentLatitude, lng: currentLongitude),
+      1500,
+      language: 'ja',
+      type: "restaurant",
+      keyword: "ラーメン",
+      rankby: RankBy.Distance,
+    );
+
+    if (response == null) {
+      print("Error: getNearBySearchに失敗しました");
+      return;
+    }
+
+    final results = response?.results;
+
+    for (var place in results!) {
+      print("店名: ${place.name}, 住所: ${place.geometry?.location?.lat}");
+    }
   }
 
   @override
