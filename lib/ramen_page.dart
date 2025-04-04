@@ -23,6 +23,7 @@ class _RamenPageState extends State<RamenPage> {
   SortState sortState = SortState.init;
   String? sortText = "近い順";
   List<RamenData> ramenList = [];
+  bool isTop = false;
 
   @override
   void initState() {
@@ -54,11 +55,27 @@ class _RamenPageState extends State<RamenPage> {
 
     final results = response.results;
 
-    List<RamenData> fetchedRamenList = results?.map((place) {
+    for (var result in results!) {
+      print("店名: ${result.name}");
+      print("評価: ${result.rating}");
+      print("レビュー数: ${result.userRatingsTotal}");
+    }
+
+    List<RamenData> fetchedRamenList = results.map((place) {
           final photoReference = place.photos?.first.photoReference;
           final goalLocation = place.geometry?.location;
           final goalLatitude = goalLocation?.lat;
           final goalLongitude = goalLocation?.lng;
+
+          if (place.userRatingsTotal! > 900) {
+            setState(() {
+              isTop = true;
+            });
+          } else {
+            setState(() {
+              isTop = false;
+            });
+          }
 
           doubleDistance = Geolocator.distanceBetween(
             currentLatitude,
@@ -73,9 +90,9 @@ class _RamenPageState extends State<RamenPage> {
             photoUrl =
                 "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
           }
-          return RamenData(place.name, place.rating, photoUrl, distance);
-        }).toList() ??
-        [];
+          return RamenData(place.name, place.rating, photoUrl, distance,
+              place.userRatingsTotal, isTop);
+        }).toList();
 
     setState(() {
       ramenList = fetchedRamenList;
@@ -97,7 +114,7 @@ class _RamenPageState extends State<RamenPage> {
         case SortState.distance:
           ramenList
               .sort((a, b) => (a.distance ?? 0).compareTo(b.distance ?? 0));
-              sortText = "近い順";
+          sortText = "近い順";
         case SortState.init:
           break;
       }
@@ -200,22 +217,30 @@ class _RamenPageState extends State<RamenPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(height: 15),
-                                        Container(
-                                          height: 20,
-                                          width: width * 0.15,
-                                          color: Colors.orange,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                                ramen.distance != null
-                                                    ? "${ramen.distance}m"
-                                                    : '',
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                )),
-                                          ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 20,
+                                              width: width * 0.15,
+                                              color: Colors.orange,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                    ramen.distance != null
+                                                        ? "${ramen.distance}m"
+                                                        : '',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    )),
+                                              ),
+                                            ),
+                                            ramen.isTop == true
+                                                ? Text("⭐️")
+                                                : SizedBox(),
+                                          ],
                                         ),
                                         SizedBox(height: 5),
                                         Text(
