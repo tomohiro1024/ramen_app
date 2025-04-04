@@ -16,6 +16,9 @@ class RamenPage extends StatefulWidget {
 class _RamenPageState extends State<RamenPage> {
   late GooglePlace googlePlace;
   final apiKey = Secret.apiKey;
+  String? photoUrl;
+  double? doubleDistance;
+  int? distance;
   List<RamenData> ramenList = [];
 
   @override
@@ -49,7 +52,25 @@ class _RamenPageState extends State<RamenPage> {
     final results = response.results;
 
     List<RamenData> fetchedRamenList = results?.map((place) {
-          return RamenData(place.name);
+          final photoReference = place.photos?.first.photoReference;
+          final goalLocation = place.geometry?.location;
+          final goalLatitude = goalLocation?.lat;
+          final goalLongitude = goalLocation?.lng;
+
+          doubleDistance = Geolocator.distanceBetween(
+            currentLatitude,
+            currentLongitude,
+            goalLatitude!,
+            goalLongitude!,
+          );
+
+          distance = doubleDistance!.floor();
+
+          if (photoReference != null) {
+            photoUrl =
+                "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
+          }
+          return RamenData(place.name, place.rating, photoUrl, distance);
         }).toList() ??
         [];
 
@@ -119,12 +140,33 @@ class _RamenPageState extends State<RamenPage> {
                               child: Row(
                                 children: [
                                   SizedBox(width: width * 0.03),
-                                  Image.asset(
-                                    'assets/images/sample.png',
-                                    width: width * 0.29,
-                                    height: 110,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  ramen.photoUrl != null
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.orange,
+                                              width: 2.2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                            child: Image.network(
+                                              ramen.photoUrl!,
+                                              width: width * 0.29,
+                                              height: 110,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        )
+                                      : Image.asset(
+                                          'assets/images/sample.png',
+                                          width: width * 0.29,
+                                          height: 110,
+                                          fit: BoxFit.cover,
+                                        ),
                                   SizedBox(width: width * 0.03),
                                   SizedBox(
                                     width: width * 0.47,
@@ -132,7 +174,25 @@ class _RamenPageState extends State<RamenPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(height: 25),
+                                        SizedBox(height: 15),
+                                        Container(
+                                          height: 20,
+                                          width: width * 0.15,
+                                          color: Colors.orange,
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                                ramen.distance != null
+                                                    ? "${ramen.distance}m"
+                                                    : '',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
                                         Text(
                                           ramen.name ?? '店名不明',
                                           style: TextStyle(
@@ -143,14 +203,16 @@ class _RamenPageState extends State<RamenPage> {
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
-                                        SizedBox(height: 10),
+                                        SizedBox(height: 5),
                                         Row(
                                           children: [
                                             Transform.translate(
                                                 offset: Offset(0, 10),
                                                 child: Text("レビュー評価：")),
                                             Text(
-                                              "4.0",
+                                              ramen.rating != null
+                                                  ? ramen.rating!.toString()
+                                                  : '',
                                               style: TextStyle(
                                                 fontSize: 45,
                                                 color: Colors.black,
@@ -164,7 +226,7 @@ class _RamenPageState extends State<RamenPage> {
                                   ),
                                   Icon(
                                     Icons.chevron_right,
-                                    size: 50,
+                                    size: 45,
                                   ),
                                 ],
                               ),
