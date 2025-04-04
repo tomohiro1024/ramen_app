@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Sort extends StatefulWidget {
-  const Sort({super.key, required this.width});
+  const Sort({
+    super.key,
+    required this.width,
+    required this.onTap,
+    required this.sortText,
+  });
   final double width;
+  final VoidCallback onTap;
+  final String sortText;
 
   @override
   State<Sort> createState() => _SortState();
@@ -17,7 +24,7 @@ class _SortState extends State<Sort> {
       onTapUp: (_) => setState(() => _isPressed = false),
       onTapCancel: () => setState(() => _isPressed = false),
       onTap: () {
-        // ここにタップ時の処理を追加
+        widget.onTap();
       },
       child: AnimatedScale(
         duration: Duration(milliseconds: 100),
@@ -45,7 +52,7 @@ class _SortState extends State<Sort> {
                 Icon(Icons.sort),
                 SizedBox(width: widget.width * 0.05),
                 Text(
-                  '近い順',
+                  widget.sortText,
                   style: TextStyle(fontSize: 15, color: Colors.black),
                 ),
               ],

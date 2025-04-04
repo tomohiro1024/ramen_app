@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
 import 'package:ramen_app/detail_page.dart';
+import 'package:ramen_app/enum.dart';
 import 'package:ramen_app/ramen_data.dart';
 import 'package:ramen_app/secret.dart';
 import 'package:ramen_app/sort.dart';
@@ -19,6 +20,8 @@ class _RamenPageState extends State<RamenPage> {
   String? photoUrl;
   double? doubleDistance;
   int? distance;
+  SortState sortState = SortState.init;
+  String? sortText = "近い順";
   List<RamenData> ramenList = [];
 
   @override
@@ -77,10 +80,28 @@ class _RamenPageState extends State<RamenPage> {
     setState(() {
       ramenList = fetchedRamenList;
     });
+  }
 
-    // for (var place in results!) {
-    //   print("店名: ${place.name}, 住所: ${place.geometry?.location?.lat}");
-    // }
+  void toggleSort() {
+    setState(() {
+      sortState = switch (sortState) {
+        SortState.init => SortState.rating,
+        SortState.rating => SortState.distance,
+        SortState.distance => SortState.rating,
+      };
+
+      switch (sortState) {
+        case SortState.rating:
+          ramenList.sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
+          sortText = "評価順";
+        case SortState.distance:
+          ramenList
+              .sort((a, b) => (a.distance ?? 0).compareTo(b.distance ?? 0));
+              sortText = "近い順";
+        case SortState.init:
+          break;
+      }
+    });
   }
 
   @override
@@ -101,7 +122,11 @@ class _RamenPageState extends State<RamenPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10),
-            Sort(width: width),
+            Sort(
+              width: width,
+              onTap: () => toggleSort(),
+              sortText: sortText!,
+            ),
             SizedBox(height: 15),
             Expanded(
               child: ramenList.isNotEmpty
