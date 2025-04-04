@@ -5,10 +5,10 @@ class DetailPage extends StatefulWidget {
   final String ramenName;
 
   @override
-  State<DetailPage> createState() => _MyWidgetState();
+  State<DetailPage> createState() => _DetailPageState();
 }
 
-class _MyWidgetState extends State<DetailPage> {
+class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

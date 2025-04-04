@@ -5,10 +5,10 @@ class Sort extends StatefulWidget {
   final double width;
 
   @override
-  State<Sort> createState() => _MyWidgetState();
+  State<Sort> createState() => _SortState();
 }
 
-class _MyWidgetState extends State<Sort> {
+class _SortState extends State<Sort> {
   bool _isPressed = false;
   @override
   Widget build(BuildContext context) {

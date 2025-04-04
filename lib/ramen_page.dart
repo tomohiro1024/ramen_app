@@ -10,10 +10,10 @@ class RamenPage extends StatefulWidget {
   const RamenPage({super.key});
 
   @override
-  State<RamenPage> createState() => _MyWidgetState();
+  State<RamenPage> createState() => _RamenPageState();
 }
 
-class _MyWidgetState extends State<RamenPage> {
+class _RamenPageState extends State<RamenPage> {
   late GooglePlace googlePlace;
   final apiKey = Secret.apiKey;
   List<RamenData> ramenList = [];
