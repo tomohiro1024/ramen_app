@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
+import 'package:ramen_app/detail_page.dart';
 import 'package:ramen_app/ramen_data.dart';
 import 'package:ramen_app/secret.dart';
 import 'package:ramen_app/sort.dart';
@@ -16,7 +17,6 @@ class _MyWidgetState extends State<RamenPage> {
   late GooglePlace googlePlace;
   final apiKey = Secret.apiKey;
   List<RamenData> ramenList = [];
-  bool _isPressed = false;
 
   @override
   void initState() {
@@ -93,7 +93,14 @@ class _MyWidgetState extends State<RamenPage> {
                               vertical: 5, horizontal: width * 0.02),
                           child: GestureDetector(
                             onTap: () {
-                              // ここにタップ時の処理を追加
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailPage(
+                                    ramenName: ramen.name ?? '店名不明',
+                                  ),
+                                ),
+                              );
                             },
                             child: Container(
                               height: 140,
@@ -166,7 +173,7 @@ class _MyWidgetState extends State<RamenPage> {
                         );
                       },
                     )
-                  : Center(child: CircularProgressIndicator()), // データがない場合
+                  : Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
