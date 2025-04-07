@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key, required this.ramenName});
+  const DetailPage({
+    super.key,
+    required this.ramenName,
+    required this.photoUrl,
+    required this.width,
+  });
   final String ramenName;
+  final String photoUrl;
+  final double width;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -21,6 +28,85 @@ class _DetailPageState extends State<DetailPage> {
           style: TextStyle(fontSize: 20),
         ),
         backgroundColor: Colors.orangeAccent,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 5),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.orange,
+                    width: 2.2,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.network(
+                    widget.photoUrl,
+                    width: widget.width * 0.95,
+                    height: 250,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Table(
+                border: TableBorder.all(color: Colors.orange),
+                columnWidths: const {
+                  0: FlexColumnWidth(0.5),
+                  1: FlexColumnWidth(2),
+                },
+                children: [
+                  TableRow(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('店名',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text(widget.ramenName),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('評価',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text("test!"),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('距離',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text("100 m"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

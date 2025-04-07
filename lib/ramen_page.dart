@@ -62,37 +62,37 @@ class _RamenPageState extends State<RamenPage> {
     }
 
     List<RamenData> fetchedRamenList = results.map((place) {
-          final photoReference = place.photos?.first.photoReference;
-          final goalLocation = place.geometry?.location;
-          final goalLatitude = goalLocation?.lat;
-          final goalLongitude = goalLocation?.lng;
+      final photoReference = place.photos?.first.photoReference;
+      final goalLocation = place.geometry?.location;
+      final goalLatitude = goalLocation?.lat;
+      final goalLongitude = goalLocation?.lng;
 
-          if (place.userRatingsTotal! > 900) {
-            setState(() {
-              isTop = true;
-            });
-          } else {
-            setState(() {
-              isTop = false;
-            });
-          }
+      if (place.userRatingsTotal! > 900) {
+        setState(() {
+          isTop = true;
+        });
+      } else {
+        setState(() {
+          isTop = false;
+        });
+      }
 
-          doubleDistance = Geolocator.distanceBetween(
-            currentLatitude,
-            currentLongitude,
-            goalLatitude!,
-            goalLongitude!,
-          );
+      doubleDistance = Geolocator.distanceBetween(
+        currentLatitude,
+        currentLongitude,
+        goalLatitude!,
+        goalLongitude!,
+      );
 
-          distance = doubleDistance!.floor();
+      distance = doubleDistance!.floor();
 
-          if (photoReference != null) {
-            photoUrl =
-                "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
-          }
-          return RamenData(place.name, place.rating, photoUrl, distance,
-              place.userRatingsTotal, isTop);
-        }).toList();
+      if (photoReference != null) {
+        photoUrl =
+            "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
+      }
+      return RamenData(place.name, place.rating, photoUrl, distance,
+          place.userRatingsTotal, isTop);
+    }).toList();
 
     setState(() {
       ramenList = fetchedRamenList;
@@ -161,6 +161,8 @@ class _RamenPageState extends State<RamenPage> {
                                 MaterialPageRoute(
                                   builder: (context) => DetailPage(
                                     ramenName: ramen.name ?? '店名不明',
+                                    photoUrl: ramen.photoUrl!,
+                                    width: width,
                                   ),
                                 ),
                               );
