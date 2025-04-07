@@ -13,7 +13,14 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.ramenName),
+        title: Text(
+          widget.ramenName,
+          softWrap: true,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 20),
+        ),
+        backgroundColor: Colors.orangeAccent,
       ),
     );
   }
