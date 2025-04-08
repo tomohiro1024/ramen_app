@@ -5,6 +5,7 @@ class RamenData {
   int? distance;
   int? userRatingsTotal;
   bool? isTop;
+  bool? isOpen;
   RamenData(
     this.name,
     this.rating,
@@ -12,5 +13,6 @@ class RamenData {
     this.distance,
     this.userRatingsTotal,
     this.isTop,
+    this.isOpen,
   );
 }
