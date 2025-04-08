@@ -6,10 +6,16 @@ class DetailPage extends StatefulWidget {
     required this.ramenName,
     required this.photoUrl,
     required this.width,
+    required this.rating,
+    required this.userRatingsTotal,
+    required this.distance,
   });
   final String ramenName;
   final String photoUrl;
   final double width;
+  final double rating;
+  final int userRatingsTotal;
+  final int distance;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -63,8 +69,9 @@ class _DetailPageState extends State<DetailPage> {
                   1: FlexColumnWidth(2),
                 },
                 children: [
-                  buildTableRow('レビュー評価', 'test!'),
-                  buildTableRow('ここからの距離', '100 m'),
+                  buildTableRow('レビュー評価', widget.rating.toString()),
+                  buildTableRow('レビュー数', widget.userRatingsTotal.toString()),
+                  buildTableRow('ここからの距離', '${widget.distance}m'),
                 ],
               ),
             ),
@@ -90,7 +97,10 @@ TableRow buildTableRow(String label, String value) {
       ),
       Padding(
         padding: EdgeInsets.all(8),
-        child: Text(value),
+        child: Text(
+          value,
+          style: TextStyle(fontSize: 15),
+        ),
       ),
     ],
   );
