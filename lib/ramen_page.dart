@@ -59,15 +59,22 @@ class _RamenPageState extends State<RamenPage> {
       print("店名: ${result.name}");
       print("評価: ${result.rating}");
       print("レビュー数: ${result.userRatingsTotal}");
+      print("営業: ${result.openingHours?.openNow ?? false}");
     }
+
+    final maxUserRatingsTotal = results
+        .where((place) => place.userRatingsTotal != null)
+        .map((place) => place.userRatingsTotal!)
+        .fold<int>(0, (prev, curr) => curr > prev ? curr : prev);
 
     List<RamenData> fetchedRamenList = results.map((place) {
       final photoReference = place.photos?.first.photoReference;
       final goalLocation = place.geometry?.location;
       final goalLatitude = goalLocation?.lat;
       final goalLongitude = goalLocation?.lng;
+      final isOpen = place.openingHours?.openNow;
 
-      if (place.userRatingsTotal! > 900) {
+      if (maxUserRatingsTotal == place.userRatingsTotal) {
         setState(() {
           isTop = true;
         });
@@ -91,7 +98,7 @@ class _RamenPageState extends State<RamenPage> {
             "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
       }
       return RamenData(place.name, place.rating, photoUrl, distance,
-          place.userRatingsTotal, isTop);
+          place.userRatingsTotal, isTop, isOpen);
     }).toList();
 
     setState(() {
@@ -163,6 +170,9 @@ class _RamenPageState extends State<RamenPage> {
                                     ramenName: ramen.name ?? '店名不明',
                                     photoUrl: ramen.photoUrl!,
                                     width: width,
+                                    rating: ramen.rating!,
+                                    userRatingsTotal: ramen.userRatingsTotal!,
+                                    distance: ramen.distance!,
                                   ),
                                 ),
                               );
@@ -170,7 +180,9 @@ class _RamenPageState extends State<RamenPage> {
                             child: Container(
                               height: 140,
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: ramen.isOpen == true
+                                    ? Colors.white
+                                    : Colors.grey[400],
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
@@ -223,25 +235,47 @@ class _RamenPageState extends State<RamenPage> {
                                           children: [
                                             Container(
                                               height: 20,
-                                              width: width * 0.15,
-                                              color: Colors.orange,
+                                              width: ramen.isOpen == true
+                                                  ? width * 0.15
+                                                  : width * 0.21,
+                                              color: ramen.isOpen == true
+                                                  ? Colors.orange
+                                                  : Colors.grey,
                                               child: Align(
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                    ramen.distance != null
-                                                        ? "${ramen.distance}m"
-                                                        : '',
+                                                    ramen.isOpen == true
+                                                        ? "営業中"
+                                                        : '営業時間外',
                                                     style: TextStyle(
-                                                      fontSize: 15,
+                                                      fontSize: 14,
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     )),
                                               ),
                                             ),
-                                            ramen.isTop == true
-                                                ? Text("⭐️")
-                                                : SizedBox(),
+                                            SizedBox(width: width * 0.01),
+                                            Visibility(
+                                              visible: ramen.isTop == true,
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.redAccent,
+                                                  ),
+                                                  Text(
+                                                    "おすすめ！",
+                                                    style: TextStyle(
+                                                      fontSize: 11,
+                                                      color: Colors.redAccent,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
                                           ],
                                         ),
                                         SizedBox(height: 5),
