@@ -53,55 +53,18 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Table(
                 border: TableBorder.all(color: Colors.orange),
                 columnWidths: const {
-                  0: FlexColumnWidth(0.5),
+                  0: FlexColumnWidth(1),
                   1: FlexColumnWidth(2),
                 },
                 children: [
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text('店名',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(widget.ramenName),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text('評価',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text("test!"),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text('距離',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text("100 m"),
-                      ),
-                    ],
-                  ),
+                  buildTableRow('レビュー評価', 'test!'),
+                  buildTableRow('ここからの距離', '100 m'),
                 ],
               ),
             ),
@@ -110,4 +73,25 @@ class _DetailPageState extends State<DetailPage> {
       ),
     );
   }
+}
+
+TableRow buildTableRow(String label, String value) {
+  return TableRow(
+    children: [
+      Container(
+        color: Colors.orangeAccent.withValues(alpha: 0.5),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Text(
+            label,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.all(8),
+        child: Text(value),
+      ),
+    ],
+  );
 }
