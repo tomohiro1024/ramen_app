@@ -6,6 +6,7 @@ class RamenData {
   int? userRatingsTotal;
   bool? isTop;
   bool? isOpen;
+  Uri? openGoogleMapUrl;
   RamenData(
     this.name,
     this.rating,
@@ -14,5 +15,6 @@ class RamenData {
     this.userRatingsTotal,
     this.isTop,
     this.isOpen,
+    this.openGoogleMapUrl,
   );
 }

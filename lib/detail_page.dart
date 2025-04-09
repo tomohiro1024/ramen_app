@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({
@@ -9,6 +10,7 @@ class DetailPage extends StatefulWidget {
     required this.rating,
     required this.userRatingsTotal,
     required this.distance,
+    required this.openGoogleMapUrl,
   });
   final String ramenName;
   final String photoUrl;
@@ -16,6 +18,7 @@ class DetailPage extends StatefulWidget {
   final double rating;
   final int userRatingsTotal;
   final int distance;
+  final Uri openGoogleMapUrl;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -31,7 +34,10 @@ class _DetailPageState extends State<DetailPage> {
           softWrap: true,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: Colors.orangeAccent,
       ),
@@ -73,6 +79,41 @@ class _DetailPageState extends State<DetailPage> {
                   buildTableRow('レビュー数', widget.userRatingsTotal.toString()),
                   buildTableRow('ここからの距離', '${widget.distance}m'),
                 ],
+              ),
+            ),
+            SizedBox(height: 25),
+            GestureDetector(
+              onTap: () {
+                launchUrl(widget.openGoogleMapUrl,
+                    mode: LaunchMode.externalApplication);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: 14, horizontal: widget.width * 0.15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient(
+                    colors: [Colors.orangeAccent, Colors.deepOrange],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.orange.withValues(alpha: 0.4),
+                      blurRadius: 12,
+                      offset: Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  "Google Mapアプリで確認",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.1,
+                  ),
+                ),
               ),
             ),
           ],

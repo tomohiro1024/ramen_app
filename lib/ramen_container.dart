@@ -33,6 +33,7 @@ class _RamenContainerState extends State<RamenContainer> {
                 rating: widget.ramen.rating!,
                 userRatingsTotal: widget.ramen.userRatingsTotal!,
                 distance: widget.ramen.distance!,
+                openGoogleMapUrl: widget.ramen.openGoogleMapUrl!,
               ),
             ),
           );

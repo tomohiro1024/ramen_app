@@ -25,6 +25,7 @@ class _RamenPageState extends State<RamenPage> {
   String? sortText = "近い順";
   List<RamenData> ramenList = [];
   bool isTop = false;
+  Uri? openGoogleMapUrl;
 
   @override
   void initState() {
@@ -75,6 +76,12 @@ class _RamenPageState extends State<RamenPage> {
       final goalLongitude = goalLocation?.lng;
       final isOpen = place.openingHours?.openNow;
 
+      // GoogleMapアプリを開くURLを生成
+      String rootUrl =
+          'https://www.google.com/maps/dir/?api=1&origin=$currentLatitude,$currentLongitude&destination=$goalLatitude,$goalLongitude&travelmode=walking';
+
+      openGoogleMapUrl = Uri.parse(rootUrl);
+
       if (maxUserRatingsTotal == place.userRatingsTotal) {
         setState(() {
           isTop = true;
@@ -99,7 +106,7 @@ class _RamenPageState extends State<RamenPage> {
             "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
       }
       return RamenData(place.name, place.rating, photoUrl, distance,
-          place.userRatingsTotal, isTop, isOpen);
+          place.userRatingsTotal, isTop, isOpen, openGoogleMapUrl);
     }).toList();
 
     setState(() {
@@ -136,7 +143,13 @@ class _RamenPageState extends State<RamenPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('近くのラーメン屋一覧'),
+        title: Text(
+          '近くのラーメン屋一覧',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: Colors.orange,
       ),
       body: Container(
