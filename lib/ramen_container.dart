@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ramen_app/badgeContainer.dart';
 import 'package:ramen_app/detail_page.dart';
 import 'package:ramen_app/ramen_data.dart';
 
@@ -34,6 +35,7 @@ class _RamenContainerState extends State<RamenContainer> {
                 userRatingsTotal: widget.ramen.userRatingsTotal!,
                 distance: widget.ramen.distance!,
                 openGoogleMapUrl: widget.ramen.openGoogleMapUrl!,
+                isOpen: widget.ramen.isOpen!,
               ),
             ),
           );
@@ -90,25 +92,8 @@ class _RamenContainerState extends State<RamenContainer> {
                     SizedBox(height: 15),
                     Row(
                       children: [
-                        Container(
-                          height: 20,
-                          width: widget.ramen.isOpen == true
-                              ? widget.width * 0.15
-                              : widget.width * 0.21,
-                          color: widget.ramen.isOpen == true
-                              ? Colors.orange
-                              : Colors.grey,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                                widget.ramen.isOpen == true ? "営業中" : '営業時間外',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ),
-                        ),
+                        BadgeContainer(
+                            isOpen: widget.ramen.isOpen ?? false, width: widget.width),
                         SizedBox(width: widget.width * 0.01),
                         Visibility(
                           visible: widget.ramen.isTop == true,

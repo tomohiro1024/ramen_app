@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ramen_app/badgeContainer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatefulWidget {
@@ -11,6 +12,7 @@ class DetailPage extends StatefulWidget {
     required this.userRatingsTotal,
     required this.distance,
     required this.openGoogleMapUrl,
+    required this.isOpen,
   });
   final String ramenName;
   final String photoUrl;
@@ -19,6 +21,7 @@ class DetailPage extends StatefulWidget {
   final int userRatingsTotal;
   final int distance;
   final Uri openGoogleMapUrl;
+  final bool isOpen;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -44,7 +47,17 @@ class _DetailPageState extends State<DetailPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 5),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 5, horizontal: widget.width * 0.03),
+                child: BadgeContainer(
+                  isOpen: widget.isOpen,
+                  width: widget.width,
+                ),
+              ),
+            ),
             Center(
               child: Container(
                 decoration: BoxDecoration(
