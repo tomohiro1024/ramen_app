@@ -143,12 +143,22 @@ class _RamenPageState extends State<RamenPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '近くのラーメン屋一覧',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.ramen_dining,
+              color: Colors.deepOrange,
+            ),
+            SizedBox(width: width * 0.02),
+            Text(
+              '近くのラーメン屋一覧',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
         backgroundColor: Colors.orange,
       ),

@@ -49,7 +49,10 @@ class _SortState extends State<Sort> {
             child: Row(
               children: [
                 SizedBox(width: widget.width * 0.02),
-                Icon(Icons.sort),
+                Icon(
+                  Icons.sort,
+                  color: Colors.cyan,
+                ),
                 SizedBox(width: widget.width * 0.05),
                 Text(
                   widget.sortText,

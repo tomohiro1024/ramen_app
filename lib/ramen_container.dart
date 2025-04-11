@@ -93,7 +93,8 @@ class _RamenContainerState extends State<RamenContainer> {
                     Row(
                       children: [
                         BadgeContainer(
-                            isOpen: widget.ramen.isOpen ?? false, width: widget.width),
+                            isOpen: widget.ramen.isOpen ?? false,
+                            width: widget.width),
                         SizedBox(width: widget.width * 0.01),
                         Visibility(
                           visible: widget.ramen.isTop == true,
@@ -138,7 +139,7 @@ class _RamenContainerState extends State<RamenContainer> {
                               : '',
                           style: TextStyle(
                             fontSize: 45,
-                            color: Colors.black,
+                            color: Color(0xFFFFC107),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -150,6 +151,7 @@ class _RamenContainerState extends State<RamenContainer> {
               Icon(
                 Icons.chevron_right,
                 size: 45,
+                color: Colors.cyan,
               ),
             ],
           ),
