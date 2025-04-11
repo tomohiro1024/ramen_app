@@ -30,6 +30,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -43,93 +44,101 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ),
         backgroundColor: Colors.orangeAccent,
+        iconTheme: IconThemeData(
+          color: Colors.cyan
+        ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 5, horizontal: widget.width * 0.03),
-                child: BadgeContainer(
-                  isOpen: widget.isOpen,
-                  width: widget.width,
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.orange,
-                    width: 2.2,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
-                  child: Image.network(
-                    widget.photoUrl,
-                    width: widget.width * 0.95,
-                    height: 250,
-                    fit: BoxFit.cover,
+        child: Container(
+          color: Color(0xFFF5E1A4),
+          height: height,
+          width: widget.width,
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 5, horizontal: widget.width * 0.03),
+                  child: BadgeContainer(
+                    isOpen: widget.isOpen,
+                    width: widget.width,
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Table(
-                border: TableBorder.all(color: Colors.orange),
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(2),
-                },
-                children: [
-                  buildTableRow('レビュー評価', widget.rating.toString()),
-                  buildTableRow('レビュー数', widget.userRatingsTotal.toString()),
-                  buildTableRow('ここからの距離', '${widget.distance}m'),
-                ],
-              ),
-            ),
-            SizedBox(height: 25),
-            GestureDetector(
-              onTap: () {
-                launchUrl(widget.openGoogleMapUrl,
-                    mode: LaunchMode.externalApplication);
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: 14, horizontal: widget.width * 0.15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  gradient: LinearGradient(
-                    colors: [Colors.orangeAccent, Colors.deepOrange],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.orange.withValues(alpha: 0.4),
-                      blurRadius: 12,
-                      offset: Offset(0, 6),
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.orange,
+                      width: 2.2,
                     ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: Image.network(
+                      widget.photoUrl,
+                      width: widget.width * 0.95,
+                      height: 250,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Table(
+                  border: TableBorder.all(color: Colors.orange),
+                  columnWidths: const {
+                    0: FlexColumnWidth(1),
+                    1: FlexColumnWidth(2),
+                  },
+                  children: [
+                    buildTableRow('レビュー評価', widget.rating.toString()),
+                    buildTableRow('レビュー数', widget.userRatingsTotal.toString()),
+                    buildTableRow('ここからの距離', '${widget.distance}m'),
                   ],
                 ),
-                child: Text(
-                  "Google Mapアプリで確認",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.1,
+              ),
+              SizedBox(height: 25),
+              GestureDetector(
+                onTap: () {
+                  launchUrl(widget.openGoogleMapUrl,
+                      mode: LaunchMode.externalApplication);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 14, horizontal: widget.width * 0.15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(
+                      colors: [Colors.orangeAccent, Colors.deepOrange],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.orange.withValues(alpha: 0.4),
+                        blurRadius: 12,
+                        offset: Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    "Google Mapアプリで確認",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.1,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -149,11 +158,14 @@ TableRow buildTableRow(String label, String value) {
           ),
         ),
       ),
-      Padding(
-        padding: EdgeInsets.all(8),
-        child: Text(
-          value,
-          style: TextStyle(fontSize: 15),
+      Container(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Text(
+            value,
+            style: TextStyle(fontSize: 15),
+          ),
         ),
       ),
     ],

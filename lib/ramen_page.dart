@@ -57,14 +57,14 @@ class _RamenPageState extends State<RamenPage> {
 
     final results = response.results;
 
-    for (var result in results!) {
-      print("店名: ${result.name}");
-      print("評価: ${result.rating}");
-      print("レビュー数: ${result.userRatingsTotal}");
-      print("営業: ${result.openingHours?.openNow ?? false}");
-    }
+    // for (var result in results!) {
+    //   print("店名: ${result.name}");
+    //   print("評価: ${result.rating}");
+    //   print("レビュー数: ${result.userRatingsTotal}");
+    //   print("営業: ${result.openingHours?.openNow ?? false}");
+    // }
 
-    final maxUserRatingsTotal = results
+    final maxUserRatingsTotal = results!
         .where((place) => place.userRatingsTotal != null)
         .map((place) => place.userRatingsTotal!)
         .fold<int>(0, (prev, curr) => curr > prev ? curr : prev);
