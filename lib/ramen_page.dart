@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
 import 'package:ramen_app/detail_page.dart';
@@ -170,10 +171,13 @@ class _RamenPageState extends State<RamenPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10),
-            Sort(
-              width: width,
-              onTap: () => toggleSort(),
-              sortText: sortText!,
+            Visibility(
+              visible: ramenList.isNotEmpty,
+              child: Sort(
+                width: width,
+                onTap: () => toggleSort(),
+                sortText: sortText!,
+              ),
             ),
             SizedBox(height: 15),
             Expanded(
@@ -185,7 +189,19 @@ class _RamenPageState extends State<RamenPage> {
                         return RamenContainer(width: width, ramen: ramen);
                       },
                     )
-                  : Center(child: CircularProgressIndicator()),
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SpinKitPouringHourGlass(
+                            color: Colors.deepOrange,
+                            size: 40,
+                          ),
+                          SizedBox(height: 20),
+                          Text('検索中...'),
+                        ],
+                      ),
+                    ),
             ),
           ],
         ),
