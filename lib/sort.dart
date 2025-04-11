@@ -56,7 +56,11 @@ class _SortState extends State<Sort> {
                 SizedBox(width: widget.width * 0.05),
                 Text(
                   widget.sortText,
-                  style: TextStyle(fontSize: 15, color: Colors.black),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
