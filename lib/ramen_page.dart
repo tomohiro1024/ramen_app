@@ -27,6 +27,8 @@ class _RamenPageState extends State<RamenPage> {
   List<RamenData> ramenList = [];
   bool isTop = false;
   Uri? openGoogleMapUrl;
+  String? message = '';
+  bool isExist = false;
 
   @override
   void initState() {
@@ -51,19 +53,22 @@ class _RamenPageState extends State<RamenPage> {
       rankby: RankBy.Distance,
     );
 
-    if (response == null) {
-      print("Error: getNearBySearchに失敗しました");
+    // if (response == null) {
+    //   setState(() {
+    //     message = 'ラーメン屋が見つかりませんでした';
+    //   });
+    //   return;
+    // }
+
+    final results = response?.results;
+
+    setState(() {
+      isExist = results?.isNotEmpty ?? false;
+    });
+
+    if (isExist == false) {
       return;
     }
-
-    final results = response.results;
-
-    // for (var result in results!) {
-    //   print("店名: ${result.name}");
-    //   print("評価: ${result.rating}");
-    //   print("レビュー数: ${result.userRatingsTotal}");
-    //   print("営業: ${result.openingHours?.openNow ?? false}");
-    // }
 
     final maxUserRatingsTotal = results!
         .where((place) => place.userRatingsTotal != null)
@@ -163,49 +168,53 @@ class _RamenPageState extends State<RamenPage> {
         ),
         backgroundColor: Colors.orange,
       ),
-      body: Container(
-        color: Color(0xFFF5E1A4),
-        height: height,
-        width: width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            Visibility(
-              visible: ramenList.isNotEmpty,
-              child: Sort(
-                width: width,
-                onTap: () => toggleSort(),
-                sortText: sortText!,
-              ),
-            ),
-            SizedBox(height: 15),
-            Expanded(
-              child: ramenList.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: ramenList.length,
-                      itemBuilder: (context, index) {
-                        final ramen = ramenList[index];
-                        return RamenContainer(width: width, ramen: ramen);
-                      },
-                    )
-                  : Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SpinKitPouringHourGlass(
-                            color: Colors.deepOrange,
-                            size: 40,
-                          ),
-                          SizedBox(height: 20),
-                          Text('検索中...'),
-                        ],
-                      ),
+      body: isExist == true
+          ? Container(
+              color: Color(0xFFF5E1A4),
+              height: height,
+              width: width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  Visibility(
+                    visible: ramenList.isNotEmpty,
+                    child: Sort(
+                      width: width,
+                      onTap: () => toggleSort(),
+                      sortText: sortText!,
                     ),
+                  ),
+                  SizedBox(height: 15),
+                  Expanded(
+                    child: ramenList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: ramenList.length,
+                            itemBuilder: (context, index) {
+                              final ramen = ramenList[index];
+                              return RamenContainer(width: width, ramen: ramen);
+                            },
+                          )
+                        : Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SpinKitPouringHourGlass(
+                                  color: Colors.deepOrange,
+                                  size: 40,
+                                ),
+                                SizedBox(height: 20),
+                                Text('検索中...'),
+                              ],
+                            ),
+                          ),
+                  ),
+                ],
+              ),
+            )
+          : Center(
+              child: Text("近くにラーメン屋がありません"),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
