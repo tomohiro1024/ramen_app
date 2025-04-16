@@ -37,8 +37,26 @@ class _RamenPageState extends State<RamenPage> {
   }
 
   Future searchPosition() async {
+    Position currentPosition;
+
+    try {
+      currentPosition = await _determinePosition();
+    } catch (e) {
+      currentPosition = Position(
+        latitude: 35.681236,
+        longitude: 139.767125,
+        timestamp: DateTime.now(),
+        accuracy: 1.0,
+        altitude: 0.0,
+        altitudeAccuracy: 0.0,
+        heading: 0.0,
+        headingAccuracy: 0.0,
+        speed: 0.0,
+        speedAccuracy: 1.0,
+      );
+    }
+
     // 現在地の取得
-    final currentPosition = await _determinePosition();
     final currentLatitude = currentPosition.latitude;
     final currentLongitude = currentPosition.longitude;
 
@@ -52,13 +70,6 @@ class _RamenPageState extends State<RamenPage> {
       keyword: "ラーメン",
       rankby: RankBy.Distance,
     );
-
-    // if (response == null) {
-    //   setState(() {
-    //     message = 'ラーメン屋が見つかりませんでした';
-    //   });
-    //   return;
-    // }
 
     final results = response?.results;
 
