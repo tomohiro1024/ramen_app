@@ -227,7 +227,17 @@ class _RamenPageState extends State<RamenPage> {
               ),
             )
           : Center(
-              child: Text("近くにラーメン屋がありません"),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SpinKitPouringHourGlass(
+                    color: Colors.blueAccent,
+                    size: 40,
+                  ),
+                  SizedBox(height: 20),
+                  Text('検索中...'),
+                ],
+              ),
             ),
     );
   }
