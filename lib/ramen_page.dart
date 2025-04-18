@@ -22,7 +22,7 @@ class _RamenPageState extends State<RamenPage> {
   String? photoUrl;
   double? doubleDistance;
   int? distance;
-  SortState sortState = SortState.init;
+  SortState sortState = SortState.distance;
   String? sortText = "近い順";
   List<RamenData> ramenList = [];
   bool isTop = false;
@@ -134,9 +134,9 @@ class _RamenPageState extends State<RamenPage> {
   void toggleSort() {
     setState(() {
       sortState = switch (sortState) {
-        SortState.init => SortState.rating,
-        SortState.rating => SortState.distance,
         SortState.distance => SortState.rating,
+        SortState.rating => SortState.review,
+        SortState.review => SortState.distance,
       };
 
       switch (sortState) {
@@ -147,7 +147,10 @@ class _RamenPageState extends State<RamenPage> {
           ramenList
               .sort((a, b) => (a.distance ?? 0).compareTo(b.distance ?? 0));
           sortText = "近い順";
-        case SortState.init:
+        case SortState.review:
+          ramenList.sort((a, b) =>
+              (b.userRatingsTotal ?? 0).compareTo(a.userRatingsTotal ?? 0));
+          sortText = "レビュー数順";
           break;
       }
     });

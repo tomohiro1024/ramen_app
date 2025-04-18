@@ -1,5 +1,5 @@
 enum SortState {
-  init,
   rating,
   distance,
+  review,
 }

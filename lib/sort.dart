@@ -53,11 +53,14 @@ class _SortState extends State<Sort> {
                   Icons.sort,
                   color: Colors.cyan,
                 ),
-                SizedBox(width: widget.width * 0.05),
+                SizedBox(
+                    width: widget.sortText == "レビュー数順"
+                        ? widget.width * 0.02
+                        : widget.width * 0.05),
                 Text(
                   widget.sortText,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: widget.sortText == "レビュー数順" ? 13 : 14,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
