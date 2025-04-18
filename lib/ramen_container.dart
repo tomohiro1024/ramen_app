@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ramen_app/badgeContainer.dart';
 import 'package:ramen_app/detail_page.dart';
 import 'package:ramen_app/ramen_data.dart';
@@ -24,14 +25,12 @@ class _RamenContainerState extends State<RamenContainer> {
           EdgeInsets.symmetric(vertical: 5, horizontal: widget.width * 0.02),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailPage(
-                ramen: widget.ramen,
-                width: widget.width,
-              ),
-            ),
+          context.push(
+            '/detail',
+            extra: {
+              'ramen': widget.ramen,
+              'width': widget.width,
+            },
           );
         },
         child: Container(
