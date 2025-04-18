@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ramen_app/badgeContainer.dart';
+import 'package:ramen_app/ramen_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({
     super.key,
-    required this.ramenName,
-    required this.photoUrl,
+    required this.ramen,
     required this.width,
-    required this.rating,
-    required this.userRatingsTotal,
-    required this.distance,
-    required this.openGoogleMapUrl,
-    required this.isOpen,
   });
-  final String ramenName;
-  final String photoUrl;
+
   final double width;
-  final double rating;
-  final int userRatingsTotal;
-  final int distance;
-  final Uri openGoogleMapUrl;
-  final bool isOpen;
+  final RamenData ramen;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -34,7 +24,7 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.ramenName,
+          widget.ramen.name!,
           softWrap: true,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -44,9 +34,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ),
         backgroundColor: Colors.orangeAccent,
-        iconTheme: IconThemeData(
-          color: Colors.cyan
-        ),
+        iconTheme: IconThemeData(color: Colors.cyan),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -61,7 +49,7 @@ class _DetailPageState extends State<DetailPage> {
                   padding: EdgeInsets.symmetric(
                       vertical: 5, horizontal: widget.width * 0.03),
                   child: BadgeContainer(
-                    isOpen: widget.isOpen,
+                    isOpen: widget.ramen.isOpen!,
                     width: widget.width,
                   ),
                 ),
@@ -78,7 +66,7 @@ class _DetailPageState extends State<DetailPage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(18),
                     child: Image.network(
-                      widget.photoUrl,
+                      widget.ramen.photoUrl!,
                       width: widget.width * 0.95,
                       height: 250,
                       fit: BoxFit.cover,
@@ -96,16 +84,16 @@ class _DetailPageState extends State<DetailPage> {
                     1: FlexColumnWidth(2),
                   },
                   children: [
-                    buildTableRow('レビュー評価', widget.rating.toString()),
-                    buildTableRow('レビュー数', widget.userRatingsTotal.toString()),
-                    buildTableRow('ここからの距離', '${widget.distance}m'),
+                    buildTableRow('レビュー評価', widget.ramen.rating.toString()),
+                    buildTableRow('レビュー数', widget.ramen.userRatingsTotal.toString()),
+                    buildTableRow('ここからの距離', '${widget.ramen.distance}m'),
                   ],
                 ),
               ),
               SizedBox(height: 25),
               GestureDetector(
                 onTap: () {
-                  launchUrl(widget.openGoogleMapUrl,
+                  launchUrl(widget.ramen.openGoogleMapUrl!,
                       mode: LaunchMode.externalApplication);
                 },
                 child: Container(

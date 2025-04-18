@@ -28,14 +28,8 @@ class _RamenContainerState extends State<RamenContainer> {
             context,
             MaterialPageRoute(
               builder: (context) => DetailPage(
-                ramenName: widget.ramen.name ?? '店名不明',
-                photoUrl: widget.ramen.photoUrl!,
+                ramen: widget.ramen,
                 width: widget.width,
-                rating: widget.ramen.rating!,
-                userRatingsTotal: widget.ramen.userRatingsTotal!,
-                distance: widget.ramen.distance!,
-                openGoogleMapUrl: widget.ramen.openGoogleMapUrl!,
-                isOpen: widget.ramen.isOpen!,
               ),
             ),
           );
