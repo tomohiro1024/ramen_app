@@ -31,6 +31,7 @@ class _RamenPageState extends State<RamenPage> {
   String? message = '';
   bool isExist = false;
   String _version = '';
+  List<String> photoUrls = [];
 
   @override
   void initState() {
@@ -105,6 +106,18 @@ class _RamenPageState extends State<RamenPage> {
       final goalLongitude = goalLocation?.lng;
       final isOpen = place.openingHours?.openNow;
       final placeId = place.placeId;
+      final photoList = place.photos;
+
+      if(photoList != null) {
+        for (var photo in photoList) {
+          final photoReference = photo.photoReference;
+          if (photoReference != null) {
+            final url =
+                "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
+            photoUrls.add(url);
+          }
+        }
+      }
 
       final details = await googlePlace.details.get(
         placeId!,
@@ -141,8 +154,17 @@ class _RamenPageState extends State<RamenPage> {
         photoUrl =
             "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
       }
-      return RamenData(place.name, place.rating, photoUrl, distance,
-          place.userRatingsTotal, isTop, isOpen, openGoogleMapUrl, weekDayList);
+      return RamenData(
+          place.name,
+          place.rating,
+          photoUrl,
+          distance,
+          place.userRatingsTotal,
+          isTop,
+          isOpen,
+          openGoogleMapUrl,
+          weekDayList,
+          photoUrls);
     }).toList());
 
     setState(() {

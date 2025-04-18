@@ -62,25 +62,44 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
               ),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.orange,
-                      width: 2.2,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.chevron_left,
+                    color: Colors.cyan,
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
-                    child: Image.network(
-                      widget.ramen.photoUrl!,
-                      width: widget.width * 0.95,
-                      height: 250,
-                      fit: BoxFit.cover,
+                  Container(
+                    height: 250,
+                    width: widget.width * 0.85,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.orange,
+                        width: 2.2,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
                     ),
+                    child: widget.ramen.photoUrls!.isNotEmpty
+                        ? ClipRRect(
+                          borderRadius: BorderRadius.circular(18),
+                          child: PageView.builder(
+                              itemCount: widget.ramen.photoUrls!.length,
+                              itemBuilder: (context, index) {
+                                return Image.network(
+                                  widget.ramen.photoUrls![index],
+                                  width: widget.width * 0.95,
+                                  height: 250,
+                                  fit: BoxFit.cover,
+                                );
+                              }),
+                        )
+                        : Text('画像がありません'),
                   ),
-                ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Colors.cyan,
+                  ),
+                ],
               ),
               SizedBox(height: 20),
               Padding(

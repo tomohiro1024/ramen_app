@@ -1,3 +1,5 @@
+import 'package:google_place/google_place.dart';
+
 class RamenData {
   String? name;
   double? rating;
@@ -8,6 +10,7 @@ class RamenData {
   bool? isOpen;
   Uri? openGoogleMapUrl;
   List<String>? weekDayList;
+  List<String>? photoUrls;
   RamenData(
     this.name,
     this.rating,
@@ -18,5 +21,6 @@ class RamenData {
     this.isOpen,
     this.openGoogleMapUrl,
     this.weekDayList,
+    this.photoUrls,
   );
 }
