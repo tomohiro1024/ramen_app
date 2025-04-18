@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ramen_app/detail_page.dart';
 import 'package:ramen_app/enum.dart';
 import 'package:ramen_app/ramen_container.dart';
@@ -29,11 +30,21 @@ class _RamenPageState extends State<RamenPage> {
   Uri? openGoogleMapUrl;
   String? message = '';
   bool isExist = false;
+  String _version = '';
 
   @override
   void initState() {
     super.initState();
     searchPosition();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = '${packageInfo.version}';
+      print('Version: $_version');
+    });
   }
 
   Future searchPosition() async {
@@ -193,10 +204,23 @@ class _RamenPageState extends State<RamenPage> {
                   SizedBox(height: 10),
                   Visibility(
                     visible: ramenList.isNotEmpty,
-                    child: Sort(
-                      width: width,
-                      onTap: () => toggleSort(),
-                      sortText: sortText!,
+                    child: Row(
+                      children: [
+                        Sort(
+                          width: width,
+                          onTap: () => toggleSort(),
+                          sortText: sortText!,
+                        ),
+                        Spacer(),
+                        Text(
+                          "バージョン: $_version",
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.black.withValues(alpha: 0.5),
+                          ),
+                        ),
+                        SizedBox(width: width * 0.02),
+                      ],
                     ),
                   ),
                   SizedBox(height: 15),
