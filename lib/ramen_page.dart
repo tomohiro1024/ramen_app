@@ -97,12 +97,20 @@ class _RamenPageState extends State<RamenPage> {
         .map((place) => place.userRatingsTotal!)
         .fold<int>(0, (prev, curr) => curr > prev ? curr : prev);
 
-    List<RamenData> fetchedRamenList = results.map((place) {
+    List<RamenData> fetchedRamenList =
+        await Future.wait(results.map((place) async {
       final photoReference = place.photos?.first.photoReference;
       final goalLocation = place.geometry?.location;
       final goalLatitude = goalLocation?.lat;
       final goalLongitude = goalLocation?.lng;
       final isOpen = place.openingHours?.openNow;
+      final placeId = place.placeId;
+
+      final details = await googlePlace.details.get(
+        placeId!,
+        language: 'ja',
+      );
+      final weekDayList = details?.result?.openingHours?.weekdayText;
 
       // GoogleMapアプリを開くURLを生成
       String rootUrl =
@@ -134,8 +142,8 @@ class _RamenPageState extends State<RamenPage> {
             "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
       }
       return RamenData(place.name, place.rating, photoUrl, distance,
-          place.userRatingsTotal, isTop, isOpen, openGoogleMapUrl);
-    }).toList();
+          place.userRatingsTotal, isTop, isOpen, openGoogleMapUrl, weekDayList);
+    }).toList());
 
     setState(() {
       ramenList = fetchedRamenList;

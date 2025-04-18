@@ -18,6 +18,14 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  String displayText = '';
+  @override
+  void initState() {
+    super.initState();
+    final String joinedText = widget.ramen.weekDayList!.join(', ');
+    displayText = joinedText.replaceAll(', ', ',\n');
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -77,16 +85,28 @@ class _DetailPageState extends State<DetailPage> {
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Table(
-                  border: TableBorder.all(color: Colors.orange),
-                  columnWidths: const {
-                    0: FlexColumnWidth(1),
-                    1: FlexColumnWidth(2),
-                  },
+                child: Column(
                   children: [
-                    buildTableRow('レビュー評価', widget.ramen.rating.toString()),
-                    buildTableRow('レビュー数', widget.ramen.userRatingsTotal.toString()),
-                    buildTableRow('ここからの距離', '${widget.ramen.distance}m'),
+                    buildInfoRow('レビュー評価', widget.ramen.rating.toString()),
+                    Divider(
+                      color: Colors.orange,
+                      thickness: 1,
+                      height: 1,
+                    ),
+                    buildInfoRow(
+                        'レビュー数', widget.ramen.userRatingsTotal.toString()),
+                    Divider(
+                      color: Colors.orange,
+                      thickness: 1,
+                      height: 1,
+                    ),
+                    buildInfoRow('ここからの距離', '${widget.ramen.distance}m'),
+                    Divider(
+                      color: Colors.orange,
+                      thickness: 1,
+                      height: 1,
+                    ),
+                    buildInfoRow('営業時間', displayText),
                   ],
                 ),
               ),
@@ -133,29 +153,37 @@ class _DetailPageState extends State<DetailPage> {
   }
 }
 
-TableRow buildTableRow(String label, String value) {
-  return TableRow(
-    children: [
-      Container(
-        color: Colors.orangeAccent.withValues(alpha: 0.5),
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Text(
-            label,
-            style: TextStyle(fontWeight: FontWeight.bold),
+Widget buildInfoRow(String label, String value) {
+  return IntrinsicHeight(
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // ラベル側
+        Expanded(
+          flex: 1,
+          child: Container(
+            color: Colors.orangeAccent.withOpacity(0.5),
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ),
-      ),
-      Container(
-        color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 15),
+        // 値側
+        Expanded(
+          flex: 2,
+          child: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 15),
+            ),
           ),
         ),
-      ),
-    ],
+        Divider(color: Colors.orange, thickness: 1),
+      ],
+    ),
   );
 }

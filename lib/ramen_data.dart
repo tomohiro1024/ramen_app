@@ -7,6 +7,7 @@ class RamenData {
   bool? isTop;
   bool? isOpen;
   Uri? openGoogleMapUrl;
+  List<String>? weekDayList;
   RamenData(
     this.name,
     this.rating,
@@ -16,5 +17,6 @@ class RamenData {
     this.isTop,
     this.isOpen,
     this.openGoogleMapUrl,
+    this.weekDayList,
   );
 }
