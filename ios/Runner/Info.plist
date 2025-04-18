@@ -49,5 +49,7 @@
 	<string>位置情報サービスをオンにすると、ラーメン屋が近くにあるときに表示されます</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>位置情報サービスをオンにすると、ラーメン屋が近くにあるときに表示されます</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>あなたの現在地に基づいて最適な情報を提供するために位置情報を使用します。</string>
 </dict>
 </plist>
