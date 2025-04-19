@@ -108,7 +108,7 @@ class _RamenPageState extends State<RamenPage> {
       final placeId = place.placeId;
       final photoList = place.photos;
 
-      if(photoList != null) {
+      if (photoList != null) {
         for (var photo in photoList) {
           final photoReference = photo.photoReference;
           if (photoReference != null) {
@@ -268,7 +268,7 @@ class _RamenPageState extends State<RamenPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SpinKitPouringHourGlass(
-                                  color: Colors.deepOrange,
+                                  color: Colors.blueAccent,
                                   size: 40,
                                 ),
                                 SizedBox(height: 20),
@@ -280,17 +280,23 @@ class _RamenPageState extends State<RamenPage> {
                 ],
               ),
             )
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SpinKitPouringHourGlass(
-                    color: Colors.blueAccent,
-                    size: 40,
-                  ),
-                  SizedBox(height: 20),
-                  Text('検索中...'),
-                ],
+          : Container(
+              color: Color(0xFFF5E1A4),
+              height: height,
+              width: width,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 15),
+                    SpinKitPouringHourGlass(
+                      color: Colors.blueAccent,
+                      size: 40,
+                    ),
+                    SizedBox(height: 20),
+                    Text('検索中...'),
+                  ],
+                ),
               ),
             ),
     );

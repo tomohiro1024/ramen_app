@@ -68,10 +68,11 @@ class _DetailPageState extends State<DetailPage> {
                   Icon(
                     Icons.chevron_left,
                     color: Colors.cyan,
+                    size: 30,
                   ),
                   Container(
                     height: 250,
-                    width: widget.width * 0.85,
+                    width: widget.width * 0.8,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.orange,
@@ -98,6 +99,7 @@ class _DetailPageState extends State<DetailPage> {
                   Icon(
                     Icons.chevron_right,
                     color: Colors.cyan,
+                    size: 30,
                   ),
                 ],
               ),
