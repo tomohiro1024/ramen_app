@@ -31,7 +31,6 @@ class _RamenPageState extends State<RamenPage> {
   String? message = '';
   bool isExist = false;
   String _version = '';
-  List<String> photoUrls = [];
 
   @override
   void initState() {
@@ -100,16 +99,23 @@ class _RamenPageState extends State<RamenPage> {
 
     List<RamenData> fetchedRamenList =
         await Future.wait(results.map((place) async {
+      List<String> photoUrls = [];
       final photoReference = place.photos?.first.photoReference;
       final goalLocation = place.geometry?.location;
       final goalLatitude = goalLocation?.lat;
       final goalLongitude = goalLocation?.lng;
       final isOpen = place.openingHours?.openNow;
       final placeId = place.placeId;
-      final photoList = place.photos;
 
-      if (photoList != null) {
-        for (var photo in photoList) {
+      final details = await googlePlace.details.get(
+        placeId!,
+        language: 'ja',
+      );
+      final weekDayList = details?.result?.openingHours?.weekdayText;
+      final photos = details?.result?.photos;
+
+      if (photos != null) {
+        for (var photo in photos) {
           final photoReference = photo.photoReference;
           if (photoReference != null) {
             final url =
@@ -118,12 +124,6 @@ class _RamenPageState extends State<RamenPage> {
           }
         }
       }
-
-      final details = await googlePlace.details.get(
-        placeId!,
-        language: 'ja',
-      );
-      final weekDayList = details?.result?.openingHours?.weekdayText;
 
       // GoogleMapアプリを開くURLを生成
       String rootUrl =
