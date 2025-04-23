@@ -113,6 +113,7 @@ class _RamenPageState extends State<RamenPage> {
       );
       final weekDayList = details?.result?.openingHours?.weekdayText;
       final photos = details?.result?.photos;
+      final reviews = details?.result?.reviews?[0];
 
       if (photos != null) {
         for (var photo in photos) {
@@ -155,16 +156,18 @@ class _RamenPageState extends State<RamenPage> {
             "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoReference&key=$apiKey";
       }
       return RamenData(
-          place.name,
-          place.rating,
-          photoUrl,
-          distance,
-          place.userRatingsTotal,
-          isTop,
-          isOpen,
-          openGoogleMapUrl,
-          weekDayList,
-          photoUrls);
+        place.name,
+        place.rating,
+        photoUrl,
+        distance,
+        place.userRatingsTotal,
+        isTop,
+        isOpen,
+        openGoogleMapUrl,
+        weekDayList,
+        photoUrls,
+        reviews,
+      );
     }).toList());
 
     setState(() {

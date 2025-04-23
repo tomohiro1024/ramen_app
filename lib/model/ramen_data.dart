@@ -11,6 +11,7 @@ class RamenData {
   Uri? openGoogleMapUrl;
   List<String>? weekDayList;
   List<String>? photoUrls;
+  Review? reviews;
   RamenData(
     this.name,
     this.rating,
@@ -22,5 +23,6 @@ class RamenData {
     this.openGoogleMapUrl,
     this.weekDayList,
     this.photoUrls,
+    this.reviews,
   );
 }
