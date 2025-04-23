@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ramen_app/badgeContainer.dart';
-import 'package:ramen_app/ramen_data.dart';
+import 'package:ramen_app/components/badgeContainer.dart';
+import 'package:ramen_app/model/ramen_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatefulWidget {

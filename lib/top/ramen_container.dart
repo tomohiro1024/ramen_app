@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ramen_app/badgeContainer.dart';
-import 'package:ramen_app/detail_page.dart';
-import 'package:ramen_app/ramen_data.dart';
+import 'package:ramen_app/components/badgeContainer.dart';
+import 'package:ramen_app/detail/detail_page.dart';
+import 'package:ramen_app/model/ramen_data.dart';
 
 class RamenContainer extends StatefulWidget {
   const RamenContainer({

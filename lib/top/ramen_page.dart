@@ -3,12 +3,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:ramen_app/detail_page.dart';
-import 'package:ramen_app/enum.dart';
-import 'package:ramen_app/ramen_container.dart';
-import 'package:ramen_app/ramen_data.dart';
+import 'package:ramen_app/detail/detail_page.dart';
+import 'package:ramen_app/components/enum.dart';
+import 'package:ramen_app/top/ramen_container.dart';
+import 'package:ramen_app/model/ramen_data.dart';
 import 'package:ramen_app/secret.dart';
-import 'package:ramen_app/sort.dart';
+import 'package:ramen_app/top/sort.dart';
 
 class RamenPage extends StatefulWidget {
   const RamenPage({super.key});

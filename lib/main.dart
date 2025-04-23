@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ramen_app/detail_page.dart';
-import 'package:ramen_app/ramen_data.dart';
-import 'package:ramen_app/ramen_page.dart';
+import 'package:ramen_app/detail/detail_page.dart';
+import 'package:ramen_app/model/ramen_data.dart';
+import 'package:ramen_app/top/ramen_page.dart';
 
 void main() {
   runApp(const MyApp());
